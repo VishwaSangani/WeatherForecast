@@ -1,0 +1,23 @@
+{
+  "name": "weatherforecast",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "tc-angular-chartjs": "^2.1.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VishwaSangani/WeatherForecast.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VishwaSangani/WeatherForecast/issues"
+  },
+  "homepage": "https://github.com/VishwaSangani/WeatherForecast#readme"
+}

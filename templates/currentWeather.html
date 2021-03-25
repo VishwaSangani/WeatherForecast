@@ -1,0 +1,158 @@
+<div class="hero">
+    <div class="container">
+        <form class="find-location">
+            <input type="text" ng-model=city placeholder="Enter your city here (e.g: Ahmedabad)">
+            <input type="submit"  ng-click="searchFiveDayWeatherByCity(city)">
+            <!-- <button class="button postfix" ng-click="searchFiveDayWeatherByCity(city)">Search</button> -->
+        </form>
+
+    </div>
+</div>
+<!-- <div id="map"></div> -->
+<div ng-switch="fiveDayforecast.cod">
+<div ng-switch-when="200">
+<div class="forecast-table">
+    <div class="container">
+        <div class="forecast-container">
+            <div class="today forecast">
+                <div class="forecast-header">
+                    <div class="day">{{fiveDayforecast.list[0].dt_txt | date:'EEEE'}}</div>
+                    <div class="date">{{fiveDayforecast.list[0].dt_txt | date:'d MMM'}}</div>
+                </div> <!-- .forecast-header -->
+                <div class="forecast-content">
+                    <div class="location">{{fiveDayforecast.city.name}}</div>
+                    <div class="degree">
+                        <div class="num">{{fiveDayforecast.list[0].main.temp - 273 | number:0}}<sup>o</sup>C</div>
+                        <div class="forecast-icon">
+                                <span title="{{fiveDayforecast.list[0].weather.0.description}}">
+                                    <img  ng-src="http://openweathermap.org/img/w/{{fiveDayforecast.list[0].weather.0.icon}}.png" alt="" width=90>
+                                </span>
+                        </div>	
+                    </div>
+                    <span title="Humidity"><img src="../images/icon-umberella.png" alt="">{{fiveDayforecast.list[0].main.humidity}}</span>
+                    <span title="Wind Speed"><img src="../images/icon-wind.png" alt="">{{fiveDayforecast.list[0].wind.speed}}</span>
+                    <span title="Wind Direction"><img src="../images/icon-compass.png" alt="">{{direction}}</span>
+                </div>
+            </div>
+            <div class="forecast" ng-repeat="day in fiveday">
+                <div class="forecast-header">
+                    <div class="day">{{day.dt_txt | date:'EEEE'}}</div>
+                </div> <!-- .forecast-header -->
+                <div class="forecast-content">
+                    <div class="forecast-icon">
+                            <span title="{{day.weather.0.description}}">
+                                <img ng-src="http://openweathermap.org/img/w/{{day.weather.0.icon}}.png" alt="" width=48>
+                            </span>
+                    </div>
+                    <div class="degree">{{day.main.temp_max - 273 | number:0}}<sup>o</sup>C</div>
+                    <small>{{day.main.temp_min - 273 | number:0}}<sup>o</sup></small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- <div class="col-md-1"></div> -->
+        <div class="col-md-6">
+            <div id="map_canvas">
+                <!-- <div ng-if="update"> -->
+                    <ui-gmap-google-map center="map.center" zoom="map.zoom" draggable="true" options="options" >
+                   
+                        <ui-gmap-marker coords="marker.coords"  title="marker.coords.title" options="marker.options"  idkey="marker.id" >
+                        </ui-gmap-marker>  
+                    </ui-gmap-google-map>
+                <!-- </div> -->
+                <div ng-cloak>
+                    
+                </div>
+            </div>
+        </div>
+       
+        <div class="col-md-6" >
+                <canvas tc-chartjs-line chart-data="data"
+                chart-options="options" width="200"
+                height="100">
+            </canvas>
+        </div>
+        
+    
+    </div>
+      
+</div>
+
+</div>
+
+<div ng-switch-when="404">
+        <div class="forecast-table">
+            <div class="container">
+                <div class="forecast-container">
+                    <div class="today forecast">
+                        <div class="forecast-header">
+                            <h2 data-alert >Error: {{city}} not found &nbsp;&nbsp;<a href="#" class="close">&times;</a> </h2>
+                            
+                        </div>
+                    </div>
+                </div>
+    
+            </div>
+        </div>
+    </div>
+ <!-- <div class="container">
+	<form class="row">
+		<div class="form-group form-control-lg col-md-9">
+			<input type="text" ng-model="city" placeholder=" Enter your city here (e.g: Ahmedabad)  " class="col-md-12"/>
+		</div>
+		<div class="form-group form-control-lg col-md-3">
+			<button class="button postfix" ng-click="searchFiveDayWeatherByCity(city)">
+				<i class="fa fa-search-plus"></i> Search
+			</button>
+		</div>
+	</form>
+</div>
+
+<div class="row" ng-switch="weatherData.cod">
+	<div ng-switch-when="200">
+		<div class="col-md-12 ">
+			<h3>{{weatherData.city.name}} <img ng-src="http://openweathermap.org/img/w/{{weatherData.weather.0.icon}}.png" /></h3>
+			<div class="col-md-12">
+				<span>{{weatherData.main.temp  | number:1}}</span><span class="celsius-sign">&#8451</span>
+				<p></p>
+				<span> {{weatherData.weather.0.main}} </span>
+				<br />
+				<br />
+				<span > Recorded on:
+					<br />
+					{{weatherDate | date:'dd.MM.yyyy HH:mm'}} </span>
+			</div>
+
+			<div class="col-md-12">
+				<p></p>
+				<p>
+					Min: <span >{{weatherData.main.temp_min | number:1}}</span><span class="celsius-sign">&#8451</span>
+				</p>
+
+				<p>
+					Max: <span >{{weatherData.main.temp_max | number:1}}</span><span class="celsius-sign"> &#8451</span>
+				</p>
+
+			</div>
+			<div class="col-md-12">
+				<p>
+					Humidity: {{weatherData.main.humidity}} %
+				</p>
+			</div>
+		</div>
+    </div>
+    
+    <div ng-switch-when="404">
+		<div class="col-md-12">
+			<div data-alert class="alert-box alert round">
+				Error: {{city}} not found
+				<a href="#" class="close">&times;</a>
+			</div>
+		</div>
+	</div>
+
+</div>  -->
