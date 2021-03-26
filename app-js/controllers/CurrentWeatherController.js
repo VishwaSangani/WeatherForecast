@@ -129,7 +129,7 @@ weatherApp.controller(
     
     $scope.showMap = function(){
       
-      $scope.map = {center: {latitude: $scope.fiveDayforecast.city.coord.lat, longitude: $scope.fiveDayforecast.city.coord.lon }, zoom: 4,control : {} };
+      $scope.map = {center: {latitude: $scope.fiveDayforecast.city.coord.lat, longitude: $scope.fiveDayforecast.city.coord.lon }, zoom: 6,control : {} };
       $scope.options = {scrollwheel: true};
   
 
